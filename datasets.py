@@ -8,6 +8,7 @@ from pycocotools.coco import COCO
 import pickle
 import torchvision.transforms.v2 as transforms
 import torchvision.io
+from typing import Tuple, Dict
 from PIL import Image
 
 
