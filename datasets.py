@@ -6,6 +6,7 @@ import numpy as np
 import torch.utils.data
 from pycocotools.coco import COCO
 import pickle
+from torch import Tensor
 import torchvision.transforms.v2 as transforms
 import torchvision.io
 from typing import Tuple, Dict
