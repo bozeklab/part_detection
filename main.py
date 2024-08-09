@@ -13,7 +13,6 @@ from torchvision.models import resnet101, ResNet101_Weights
 import json
 from torch.utils.tensorboard import SummaryWriter
 from train import train, validation
-from datasets import TrivialAugmentWideNoColor
 
 def main():
     parser = argparse.ArgumentParser(description='PDiscoNet')
@@ -78,8 +77,10 @@ def main():
             transforms.ToTensor(),
             normalize
         ])
-        dataset_train = torchvision.datasets.ImageFolder(root=os.path.join(args.data_root, 'train'), transform=transform_train)
-        dataset_val = torchvision.datasets.ImageFolder(root=os.path.join(args.data_root, 'test'), transform=transform_val)
+        dataset_train = MitoFolder(root=os.path.join(args.data_root, 'train'),
+                                                     transform=transform_train)
+        dataset_val = MitoFolder(root=os.path.join(args.data_root, 'test'),
+                                                    transform=transform_val)
         num_cls = 3
     else:
         raise RuntimeError("Choose celeba, cub, or partimagenet as dataset")

@@ -24,6 +24,17 @@ class TrivialAugmentWideNoColor(transforms.TrivialAugmentWide):
             "Rotate": (torch.linspace(0.0, 60.0, num_bins), True),
         }
 
+
+class MitoFolder(torchvision.datasets.ImageFolder):
+    def make_dataset(self, directory, class_to_idx, extensions=None, is_valid_file=None):
+        # Call the original make_dataset method
+        instances = super().make_dataset(directory, class_to_idx, extensions, is_valid_file)
+
+        # Filter out files that start with 'mask_'
+        instances = [(path, target) for path, target in instances if not os.path.basename(path).startswith('mask_')]
+
+        return instances
+
 class CUBDataset(torch.utils.data.Dataset):
     def __init__(self, data_path: str, split: float = 1, mode: str = 'train', train_samples: list = None,
                  image_size: int = 224, evaluate: bool = False):
