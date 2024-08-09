@@ -66,7 +66,7 @@ def main():
         normalize = transforms.Normalize(mean=mean, std=std)
         transform_train = transforms.Compose([
             TrivialAugmentWideNoColor(),
-            transforms.RandomCrop(size=(args.img_size, args.img_size)),  # includes crop
+            transforms.RandomCrop(size=(args.image_size, args.image_size)),  # includes crop
             transforms.Grayscale(3),  # convert to grayscale with three channels
             transforms.ToTensor(),
             normalize
