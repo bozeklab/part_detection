@@ -12,6 +12,7 @@ from torchvision.models import resnet101, ResNet101_Weights
 import json
 from torch.utils.tensorboard import SummaryWriter
 from train import train, validation
+from datasets import TrivialAugmentWideNoColor
 
 def main():
     parser = argparse.ArgumentParser(description='PDiscoNet')
