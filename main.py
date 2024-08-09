@@ -64,7 +64,7 @@ def main():
         normalize = transforms.Normalize(mean=mean, std=std)
         transform_train = transforms.Compose([
             TrivialAugmentWideNoColor(),
-            transforms.RandomCrop(size=(img_size, img_size)),  # includes crop
+            transforms.RandomCrop(size=(args.img_size, args.img_size)),  # includes crop
             transforms.Grayscale(3),  # convert to grayscale with three channels
             transforms.ToTensor(),
             normalize
@@ -76,8 +76,8 @@ def main():
             normalize
         ])
 
-        dataset_train = datasets.ImageFolder(root=data_path, transform=transform_train)
-        dataset_val = datasets.ImageFolder(root=data_path, transform=transform_val)
+        dataset_train = datasets.ImageFolder(root=os.path.join(data_path, 'train'), transform=transform_train)
+        dataset_val = datasets.ImageFolder(root=os.path.join(data_path, 'test'), transform=transform_val)
         num_cls = 3
     else:
         raise RuntimeError("Choose celeba, cub, or partimagenet as dataset")
