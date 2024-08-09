@@ -7,6 +7,7 @@ import numpy as np
 import torch
 import torch.multiprocessing
 from torch.utils.data import Dataset
+import torchvision
 import torchvision.transforms.v2 as transforms
 from torchvision.models import resnet101, ResNet101_Weights
 import json
