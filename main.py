@@ -58,6 +58,27 @@ def main():
         dataset_train = PartImageNetDataset(data_path, mode='train')
         dataset_val = PartImageNetDataset(data_path, mode='test')
         num_cls = 110
+    elif args.dataset.lower() == 'mito':
+        mean = (0.485, 0.456, 0.406)
+        std = (0.229, 0.224, 0.225)
+        normalize = transforms.Normalize(mean=mean, std=std)
+        transform_train = transforms.Compose([
+            TrivialAugmentWideNoColor(),
+            transforms.RandomCrop(size=(img_size, img_size)),  # includes crop
+            transforms.Grayscale(3),  # convert to grayscale with three channels
+            transforms.ToTensor(),
+            normalize
+        ])
+        transform_val = transforms.Compose([
+            transforms.Resize(size=(args.image_size, args.image_size)),
+            transforms.Grayscale(3),  # convert to grayscale with three channels
+            transforms.ToTensor(),
+            normalize
+        ])
+
+        dataset_train = datasets.ImageFolder(root=data_path, transform=transform_train)
+        dataset_val = datasets.ImageFolder(root=data_path, transform=transform_val)
+        num_cls = 3
     else:
         raise RuntimeError("Choose celeba, cub, or partimagenet as dataset")
 

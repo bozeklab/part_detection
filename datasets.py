@@ -10,6 +10,18 @@ import torchvision.transforms.v2 as transforms
 import torchvision.io
 from PIL import Image
 
+
+class TrivialAugmentWideNoColor(transforms.TrivialAugmentWide):
+    def _augmentation_space(self, num_bins: int) -> Dict[str, Tuple[Tensor, bool]]:
+        return {
+            "Identity": (torch.tensor(0.0), False),
+            "ShearX": (torch.linspace(0.0, 0.5, num_bins), True),
+            "ShearY": (torch.linspace(0.0, 0.5, num_bins), True),
+            "TranslateX": (torch.linspace(0.0, 16.0, num_bins), True),
+            "TranslateY": (torch.linspace(0.0, 16.0, num_bins), True),
+            "Rotate": (torch.linspace(0.0, 60.0, num_bins), True),
+        }
+
 class CUBDataset(torch.utils.data.Dataset):
     def __init__(self, data_path: str, split: float = 1, mode: str = 'train', train_samples: list = None,
                  image_size: int = 224, evaluate: bool = False):
@@ -107,6 +119,7 @@ class CUBDataset(torch.utils.data.Dataset):
                 transforms.ToDtype(torch.float32, scale=True)
             ])
         return train_transforms, test_transforms
+
 
 
 class PartImageNetDataset(torch.utils.data.Dataset):
