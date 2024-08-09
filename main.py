@@ -14,6 +14,7 @@ import json
 from torch.utils.tensorboard import SummaryWriter
 from train import train, validation
 from datasets import TrivialAugmentWideNoColor
+from datasets import MitoFolder
 
 def main():
     parser = argparse.ArgumentParser(description='PDiscoNet')
