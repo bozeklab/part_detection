@@ -133,6 +133,8 @@ def main():
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 5, 0.5)
     elif args.dataset.lower() == 'partimagenet':
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 5, 0.5)
+    elif args.dataset.lower() == 'mito':
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 5, 0.5)
 
     for epoch in range(epoch_leftoff, args.epochs):
         if not args.only_test:
