@@ -77,9 +77,8 @@ def main():
             transforms.ToTensor(),
             normalize
         ])
-
-        dataset_train = datasets.ImageFolder(root=os.path.join(data_path, 'train'), transform=transform_train)
-        dataset_val = datasets.ImageFolder(root=os.path.join(data_path, 'test'), transform=transform_val)
+        dataset_train = torchvision.datasets.ImageFolder(root=os.path.join(data_path, 'train'), transform=transform_train)
+        dataset_val = torchvision.datasets.ImageFolder(root=os.path.join(data_path, 'test'), transform=transform_val)
         num_cls = 3
     else:
         raise RuntimeError("Choose celeba, cub, or partimagenet as dataset")
