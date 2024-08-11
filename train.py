@@ -153,7 +153,7 @@ def train(net: torch.nn.Module, optimizer: torch.optim, train_loader: torch.util
     l_conc = loss_hyperparams['l_conc']
     l_orth = loss_hyperparams['l_orth']
     l_equiv = loss_hyperparams['l_equiv']
-    for i, (X, lab) in enumerate(train_loader):
+    for i, (X, lab, _) in enumerate(train_loader):
         lab = lab.to(device)
         landmark_features, maps, scores = net(X.to(device))
         # Equivariance loss: calculate rotated landmarks distance
@@ -245,7 +245,7 @@ def validation(device, net, val_loader, epoch, model_name, save_figures, writer)
     all_labels = []
     all_maxes = torch.Tensor().to(device)
     with torch.no_grad():
-        for i, (X, y) in enumerate(tqdm(val_loader)):
+        for i, (X, y, _) in enumerate(tqdm(val_loader)):
             _, maps, scores = net(X.to(device))
             scores = scores.detach().cpu()
             all_scores.append(scores)

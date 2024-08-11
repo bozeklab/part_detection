@@ -35,6 +35,20 @@ class MitoFolder(torchvision.datasets.ImageFolder):
 
         return instances
 
+    def __getitem__(self, index):
+        path, target = self.samples[index]
+
+        sample = self.loader(path)
+
+        if self.transform is not None:
+            sample = self.transform(sample)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return sample, target, os.path.basename(path)
+
+
 class CUBDataset(torch.utils.data.Dataset):
     def __init__(self, data_path: str, split: float = 1, mode: str = 'train', train_samples: list = None,
                  image_size: int = 224, evaluate: bool = False):
