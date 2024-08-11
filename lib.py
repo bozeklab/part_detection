@@ -131,6 +131,8 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
     grid_x = grid_x.unsqueeze(0).unsqueeze(0).to(device)
     grid_y = grid_y.unsqueeze(0).unsqueeze(0).to(device)
     map_sums = maps.sum(3).sum(2).detach()
+    print('!!!!')
+    print(maps.shape)
     maps_x = grid_x * maps
     maps_y = grid_y * maps
     loc_x = maps_x.sum(3).sum(2) / map_sums
