@@ -246,8 +246,6 @@ def validation(device, net, val_loader, epoch, model_name, save_figures, writer)
     all_maxes = torch.Tensor().to(device)
     with torch.no_grad():
         for i, (X, y, paths) in enumerate(tqdm(val_loader)):
-            print('!!!')
-            print(paths)
             _, maps, scores = net(X.to(device))
             scores = scores.detach().cpu()
             all_scores.append(scores)
@@ -264,7 +262,7 @@ def validation(device, net, val_loader, epoch, model_name, save_figures, writer)
 
             # Saving the attention maps
             if save_figures:
-                save_maps(X, maps, epoch, model_name, device)
+                save_maps(X, maps, epoch, model_name, device, paths=paths)
 
     top1acc = np.mean(np.array(top_class))
     writer.add_scalar('Validation Accuracy', top1acc, epoch)

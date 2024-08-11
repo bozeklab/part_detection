@@ -104,7 +104,7 @@ def landmarks_to_rgb(maps):
     return rgb
 
 
-def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, device: torch.device) -> None:
+def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, device: torch.device, paths=None) -> None:
     """
     Plot images, attention maps and landmark centroids.
     Parameters
@@ -155,7 +155,11 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
             ax.scatter(xi, yi, color=col_i, marker=f'${mark}$')
 
         # Save each image separately
-        plt.savefig(f'{output_dir}/image_{i}_{np.random.randint(0, 10)}.png')
+        if paths is None:
+            image_name = f'image_{i}_{np.random.randint(0, 10)}'
+        else:
+            image_name = paths[i]
+        plt.savefig(f'{output_dir}/{image_name}')
         plt.close()
 
 
