@@ -145,7 +145,9 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
             for xi, yi, col_i, mark in zip(x_coords, y_coords, cols, n):
                 ax.scatter(xi, yi, color=col_i, marker=f'${mark}$')
         i += 1
-    plt.savefig(f'./results_{model_name}/{epoch}_{np.random.randint(0, 10)}')
+    output_dir = f'./results_{model_name}/epoch_{epoch}'
+    os.makedirs(output_dir, exist_ok=True)
+    plt.savefig(f'{output_dir}/{np.random.randint(0, 10)}.png')
     plt.close()
 
 

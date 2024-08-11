@@ -158,5 +158,6 @@ def main():
         torch.save(net.state_dict(), f'./{args.dataset}/{args.model_name}.pt')
     writer.close()
 
+
 if __name__ == "__main__":
     main()
