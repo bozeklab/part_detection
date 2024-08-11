@@ -151,11 +151,12 @@ def main():
             print(f'Validation accuracy in epoch {epoch}:')
             validation(device, net, val_loader, epoch, args.model_name, args.save_figures, writer)
             torch.cuda.empty_cache()
+            torch.save(net.state_dict(), f'./{args.dataset}/{args.model_name}.pt')
         # Validation
         else:
             print('Validation accuracy with saved network:')
             validation(device, net, val_loader, epoch, args.model_name, args.save_figures, writer)
-        torch.save(net.state_dict(), f'./{args.dataset}/{args.model_name}.pt')
+
     writer.close()
 
 
