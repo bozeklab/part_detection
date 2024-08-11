@@ -245,7 +245,9 @@ def validation(device, net, val_loader, epoch, model_name, save_figures, writer)
     all_labels = []
     all_maxes = torch.Tensor().to(device)
     with torch.no_grad():
-        for i, (X, y, _) in enumerate(tqdm(val_loader)):
+        for i, (X, y, paths) in enumerate(tqdm(val_loader)):
+            print('!!!')
+            print(paths)
             _, maps, scores = net(X.to(device))
             scores = scores.detach().cpu()
             all_scores.append(scores)
