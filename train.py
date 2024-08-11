@@ -261,7 +261,7 @@ def validation(device, net, val_loader, epoch, model_name, save_figures, writer)
             all_maxes = torch.cat((all_maxes, map_max), 0)
 
             # Saving the attention maps
-            if save_figures and i % 100 == 0:
+            if save_figures: # and i % 100 == 0:
                 save_maps(X, maps, epoch, model_name, device)
 
     top1acc = np.mean(np.array(top_class))
