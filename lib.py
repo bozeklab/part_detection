@@ -123,6 +123,10 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
     Returns
     -------
     """
+    output_dir = f'./results_{model_name}/epoch_{epoch}'
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Generate the grids
     grid_x, grid_y = torch.meshgrid(torch.arange(maps.shape[2]), torch.arange(maps.shape[3]))
     grid_x = grid_x.unsqueeze(0).unsqueeze(0).to(device)
     grid_y = grid_y.unsqueeze(0).unsqueeze(0).to(device)
@@ -131,24 +135,28 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
     maps_y = grid_y * maps
     loc_x = maps_x.sum(3).sum(2) / map_sums
     loc_y = maps_y.sum(3).sum(2) / map_sums
-    fig, axs = plt.subplots(3, 3)
-    i = 0
-    for ax in axs.reshape(-1):
-        if i < maps.shape[0]:
-            landmarks = landmarks_to_rgb( maps[i,:-1,:,:].detach().cpu().numpy())
-            ax.imshow((skimage.transform.resize(landmarks, (256, 256))
-                       + skimage.transform.resize((X[i, :, :, :].permute(1, 2, 0).numpy()), (256, 256))))
-            x_coords = loc_y[i,0:-1].detach().cpu()*256/maps.shape[-1]
-            y_coords = loc_x[i,0:-1].detach().cpu()*256/maps.shape[-1]
-            cols = COLORS[0:loc_x.shape[1]-1]
-            n = np.arange(loc_x.shape[1])
-            for xi, yi, col_i, mark in zip(x_coords, y_coords, cols, n):
-                ax.scatter(xi, yi, color=col_i, marker=f'${mark}$')
-        i += 1
-    output_dir = f'./results_{model_name}/epoch_{epoch}'
-    os.makedirs(output_dir, exist_ok=True)
-    plt.savefig(f'{output_dir}/{np.random.randint(0, 10)}.png')
-    plt.close()
+
+    # Loop through each image in the batch and save separately
+    for i in range(maps.shape[0]):
+        fig, ax = plt.subplots()
+
+        # Generate the landmarks and overlay with the image
+        landmarks = landmarks_to_rgb(maps[i, :-1, :, :].detach().cpu().numpy())
+        ax.imshow((skimage.transform.resize(landmarks, (256, 256))
+                   + skimage.transform.resize((X[i, :, :, :].permute(1, 2, 0).numpy()), (256, 256))))
+
+        # Calculate and plot the coordinates of the landmarks
+        x_coords = loc_y[i, 0:-1].detach().cpu() * 256 / maps.shape[-1]
+        y_coords = loc_x[i, 0:-1].detach().cpu() * 256 / maps.shape[-1]
+        cols = COLORS[0:loc_x.shape[1] - 1]
+        n = np.arange(loc_x.shape[1])
+
+        for xi, yi, col_i, mark in zip(x_coords, y_coords, cols, n):
+            ax.scatter(xi, yi, color=col_i, marker=f'${mark}$')
+
+        # Save each image separately
+        plt.savefig(f'{output_dir}/image_{i}_{np.random.randint(0, 10)}.png')
+        plt.close()
 
 
 def get_epoch(model_name):
