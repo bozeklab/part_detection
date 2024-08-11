@@ -142,12 +142,12 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
 
         # Generate the landmarks and overlay with the image
         landmarks = landmarks_to_rgb(maps[i, :-1, :, :].detach().cpu().numpy())
-        ax.imshow((#skimage.transform.resize(landmarks, (256, 256)) +
+        ax.imshow((skimage.transform.resize(landmarks, (256, 256)) +
                    skimage.transform.resize((X[i, :, :, :].permute(1, 2, 0).numpy()), (256, 256))))
 
         # Calculate and plot the coordinates of the landmarks
-        x_coords = loc_y[i, 0:-1].detach().cpu() * 256 / maps.shape[-1]
-        y_coords = loc_x[i, 0:-1].detach().cpu() * 256 / maps.shape[-1]
+        x_coords = loc_y[i, 0:-1].detach().cpu() * 256 #/ maps.shape[-1]
+        y_coords = loc_x[i, 0:-1].detach().cpu() * 256 #/ maps.shape[-1]
         cols = COLORS[0:loc_x.shape[1] - 1]
         n = np.arange(loc_x.shape[1])
 
