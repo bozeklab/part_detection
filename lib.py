@@ -123,10 +123,6 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
     Returns
     -------
     """
-    print('!!!!')
-    print(X.shape)
-    print(maps.shape)
-
     output_dir = f'./results_{model_name}/epoch_{epoch}'
     os.makedirs(output_dir, exist_ok=True)
 
@@ -146,8 +142,8 @@ def save_maps(X: torch.Tensor, maps: torch.Tensor, epoch: int, model_name: str, 
 
         # Generate the landmarks and overlay with the image
         landmarks = landmarks_to_rgb(maps[i, :-1, :, :].detach().cpu().numpy())
-        ax.imshow((skimage.transform.resize(landmarks, (256, 256))
-                   + skimage.transform.resize((X[i, :, :, :].permute(1, 2, 0).numpy()), (256, 256))))
+        ax.imshow((#skimage.transform.resize(landmarks, (256, 256)) +
+                   skimage.transform.resize((X[i, :, :, :].permute(1, 2, 0).numpy()), (256, 256))))
 
         # Calculate and plot the coordinates of the landmarks
         x_coords = loc_y[i, 0:-1].detach().cpu() * 256 / maps.shape[-1]
